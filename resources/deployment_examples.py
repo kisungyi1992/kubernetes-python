@@ -12,8 +12,6 @@ class DeploymentExamples(Resource):
         return result
 
 
-"""
 if __name__ == '__main__':
     api_instance = ApiInstanceGetter().get_appv1_api_instance()
     print(DeploymentExamples().list_deployment_all_namespace(api_instance))
-"""
