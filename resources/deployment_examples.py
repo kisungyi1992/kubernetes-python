@@ -13,34 +13,25 @@ class DeploymentExamples():
         result = api_instance.list_deployment_for_all_namespaces()
         return result
 
-    def list_deployment_namespace(self, api_instance):
-        result = api_instance.list_namespaced_deployment('default')
+    def list_deployment_namespace(self, api_instance, namespace):
+        result = api_instance.list_namespaced_deployment(namespace)
         return result
 
-    def list_deployment_namespace(self, api_instance):
-        result = api_instance.list_namespaced_deployment('default')
+    def list_deployment_namespace_by_selector(self, api_instance, namespace, selector):
+        result = api_instance.list_namespaced_deployment(namespace=namespace, field_selector=selector, limit=5)
         return result
 
-    def list_deployment_namespace_by_selector(self, api_instance):
-        api_instance.list_namespaced_deployment(namespace='default',
-                                                field_selector='metadata.name=alice',
-                                                label_selector='', limit=5)
+    def list_deployment_namespace_by_label(self, api_instance, namespace, label):
+        result = api_instance.list_namespaced_deployment(namespace=namespace, label_selector=label, limit=5)
+        return result
 
     # Create Deployment Object From Sample Data
-    def create_deployment_sample(self, api_instance):
-        deployment_sample_data = DeploymentMessage('sample-deployment')
-
+    def create_deployment_sample(self, api_instance, deployment_sample_data):
         labels = {'alicek106_love_is_you': 'ls'} # Default Label for matching ReplicaSets
-        for key in deployment_sample_data.labels:
-            labels[key] = deployment_sample_data.labels[key]
+        labels.update(deployment_sample_data.labels)
 
-        env_vars = []
-        for env in deployment_sample_data.env_vars:
-            env_vars.append(client.V1EnvVar(name=env['name'], value=env['value']))
-
-        publish_ports = []
-        for port in deployment_sample_data.publish_ports:
-            publish_ports.append(client.V1ContainerPort(name=port['name'], container_port=int(port['port'])))
+        env_vars = [client.V1EnvVar(name=env['name'], value=env['value']) for env in deployment_sample_data.env_vars]
+        publish_ports = [client.V1ContainerPort(name=port['name'], container_port=int(port['port'])) for port in deployment_sample_data.publish_ports]
 
         metadata = client.V1ObjectMeta(
             namespace=deployment_sample_data.namespace,
@@ -88,8 +79,7 @@ class DeploymentExamples():
             error = json.loads(e.body)
             return GeneralError(409, 'Reason: %s, %s' % (error['reason'], error['message'])).serialize(), 409
 
-    def delete_deployment_sample(self, api_instance):
-        deployment_sample_data = DeploymentMessage('sample-deployment')
+    def delete_deployment_sample(self, api_instance, deployment_sample_data):
         deleteOptions = client.V1DeleteOptions()  # https://github.com/kubernetes-client/python/blob/master/kubernetes/docs/V1DeleteOptions.md
         try:
             api_response = api_instance.delete_namespaced_deployment(
