@@ -1,5 +1,6 @@
 from kubernetes import client
 from auth.api_instance_getter import ApiInstanceGetter
+import time
 
 # Admission Controller for Service Account should be activated.
 class ServiceaccountExamples():
@@ -14,11 +15,19 @@ class ServiceaccountExamples():
         return result
 
     def get_serviceaccount_info(self, api_instance, namespace, name):
-        """ exact and export will be removed in 1.18 (currently, deprecated) """
-        serviceaccount_response = api_instance.read_namespaced_service_account(name=name, namespace=namespace, exact=True, export=True)
-        secret_response = api_instance.read_namespaced_secret(name=serviceaccount_response.secrets[0].name,
-                                                              namespace=namespace, exact=True, export=True)
-        return secret_response
+        """ Wait for creation of secret """
+        while True:
+            try:
+                """ exact and export will be removed in 1.18 (currently, deprecated) """
+                serviceaccount_response = api_instance.read_namespaced_service_account(name=name, namespace=namespace,
+                                                                                       exact=True, export=True)
+                if serviceaccount_response.secrets != None:
+                    secret_response = api_instance.read_namespaced_secret(name=serviceaccount_response.secrets[0].name,
+                                                                      namespace=namespace, exact=True, export=True)
+                    return secret_response
+            except Exception as e:
+                time.sleep(1)
+                continue
 
     def delete_serviceaccount(self, api_instance, namespace, name):
         result = api_instance.delete_namespaced_service_account(namespace=namespace, name=name,
