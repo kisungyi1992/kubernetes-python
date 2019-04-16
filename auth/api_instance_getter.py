@@ -32,3 +32,6 @@ class ApiInstanceGetter:
         appv1_api_instance = client.AppsV1Api()
         return appv1_api_instance
 
+    def get_corev1_api_instance(self):
+        corev1_api_instance = client.CoreV1Api()
+        return corev1_api_instance
