@@ -14,7 +14,7 @@ class ServiceaccountExamples():
         result = api_instance.create_namespaced_service_account(namespace, body)
         return result
 
-    def get_serviceaccount_info(self, api_instance, namespace, name):
+    def get_serviceaccount_secret_token(self, api_instance, namespace, name):
         """ Wait for creation of secret """
         while True:
             try:
