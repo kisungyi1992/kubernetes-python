@@ -51,3 +51,11 @@ class ApiInstanceGetter:
         else:
             self.__get_custom_token_auth(custom_token_auth)
         return client.CoreV1Api()
+
+    def get_rbac_api_instance(self, custom_token_auth=None):
+        if custom_token_auth == None:
+            """ Use default auth mounted into pod """
+            self.__set_default_auth()
+        else:
+            self.__get_custom_token_auth(custom_token_auth)
+        return client.RbacAuthorizationV1Api()
