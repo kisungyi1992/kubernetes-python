@@ -17,14 +17,13 @@ class AuthParser:
         config = configparser.ConfigParser()
         config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config/auth_config.ini'))
         self.auth_type = int(config['AUTH_CONFIG']['AUTH_TYPE'])
+        self.kube_api_server_ip = config['AUTH_CONFIG']['KUBE_API_SERVER_IP']
 
         if self.auth_type == self.SERVICE_ACCOUNT_TOKEN_AUTH:
             self.service_account_token = config['AUTH_CONFIG']['SERVICE_ACCOUNT_TOKEN']
-            self.kube_api_server_ip = config['AUTH_CONFIG']['KUBE_API_SERVER_IP']
         elif self.auth_type == self.CERTIFICATE_AUTH:
             self.cert_file_name = config['AUTH_CONFIG']['CERT_FILE_NAME']
             self.cert_key_file_name = config['AUTH_CONFIG']['CERT_KEY_FILE_NAME']
-            self.kube_api_server_ip = config['AUTH_CONFIG']['KUBE_API_SERVER_IP']
         else:
             pass
 

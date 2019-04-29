@@ -6,10 +6,11 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class ApiInstanceGetter:
+    auth_parser = AuthParser()
+    auth_type = auth_parser.get_auth_type()
 
     def __set_default_auth(self):
-        self.auth_parser = AuthParser()
-        self.auth_type = self.auth_parser.get_auth_type()
+
 
         if self.auth_type == self.auth_parser.IN_CLUSTER_POD_AUTH:
             config.load_incluster_config()
