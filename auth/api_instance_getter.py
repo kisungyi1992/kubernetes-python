@@ -36,7 +36,7 @@ class ApiInstanceGetter:
         But if not, (If you deploy pod in kubernetes) just use Environment Variable :D
         """
         # configuration.host = self.auth_parser.kube_api_server_ip
-        configuration.host = 'https://' + os.environ['KUBERNETES_SERVICE_HOST']
+        configuration.host = 'https://kubernetes' #'https://' + os.environ['KUBERNETES_SERVICE_HOST']
         configuration.verify_ssl = False  # can be True with ca.crt issued by Kubernetes
         configuration.api_key = {"authorization": "Bearer " + base64.decodebytes(token).decode()}
         client.Configuration.set_default(configuration)
