@@ -24,8 +24,7 @@ podTemplate(
             container('python') {
                 sh 'pip install -r /etc/gitrepo/requirements.txt'
                 sh 'python /etc/gitrepo/__main__.py /etc/gitrepo/unit_test'
-                sh 'cp /etc/gitrepo/unit_test/jenkins_output/*.xml $WORKSPACE'
-                junit '*.xml'
+                junit 'unit_test/jenkins_output/*.xml'
             }
         }
         stage('Build and push docker image'){
