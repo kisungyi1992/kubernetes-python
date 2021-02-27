@@ -29,6 +29,8 @@ podTemplate(
         }
         stage('Build and push docker image'){
             container('docker') {
+		sh 'systemctl start docker'
+		sh 'systemctl enable docker'
                 sh 'docker login -u kisungyi92 -p$DOCKER_HUB_PASSWORD'
                 sh 'docker build /etc/gitrepo/ -t alicek106/kubernetes-python-sdk-example --no-cache'
                 sh 'docker push alicek106/kubernetes-python-sdk-example'
