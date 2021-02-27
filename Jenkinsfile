@@ -1,5 +1,5 @@
 podTemplate(
-	label: 'mypod',
+	label: 'jenkins-slave',
 	volumes: [
 		emptyDirVolume(mountPath: '/etc/gitrepo', memory: false),
 		hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
