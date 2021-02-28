@@ -1,5 +1,5 @@
 podTemplate(
-	label: 'jenkins-slave',
+	label: 'mypod',
 	volumes: [
 		emptyDirVolume(mountPath: '/etc/gitrepo', memory: false),
 		hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -14,7 +14,7 @@ podTemplate(
     ]
 )
 {
-    node('jenkins-slave') {
+    node('mypod') {
         stage('Clone repository') {
             container('git') {
                 sh 'git clone -b master https://github.com/alicek106/kubernetes-python-sdk-example.git /etc/gitrepo'
