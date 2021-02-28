@@ -30,7 +30,7 @@ podTemplate(
         }
         stage('Build and push docker image'){
             container('docker') {
-                sh 'docker container run -v /var/run/docker.sock:/var/run/docker.sock -ti docker'
+                sh 'docker container run -v /var/run/docker.sock:/var/run/docker.sock -i docker'
                 sh 'docker login -u kisungyi92 -p $DOCKER_HUB_PASSWORD'
                 sh 'docker build /etc/gitrepo/ -t kisungyi92/kubernetes-python --no-cache'
                 sh 'docker push kisungyi92/kubernetes-python'
