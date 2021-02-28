@@ -14,7 +14,7 @@ podTemplate(
     ]
 )
 {
-    node('mypod') {
+    node('jenkins-slave') {
         stage('Clone repository') {
             container('git') {
                 sh 'git clone -b master https://github.com/alicek106/kubernetes-python-sdk-example.git /etc/gitrepo'
@@ -30,10 +30,6 @@ podTemplate(
         }
         stage('Build and push docker image'){
             container('docker') {
-                sh 'groupadd docker'
-                sh 'usermod -aG docker $USER'
-                sh 'service docker stop'
-                sh 'service docker start'
                 sh 'docker login -u kisungyi92 -p $DOCKER_HUB_PASSWORD'
                 sh 'docker build /etc/gitrepo/ -t kisungyi92/kubernetes-python --no-cache'
                 sh 'docker push kisungyi92/kubernetes-python'
