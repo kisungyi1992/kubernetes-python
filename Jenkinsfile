@@ -30,10 +30,10 @@ podTemplate(
         }
         stage('Build and push docker image'){
             container('docker') {
-                sh 'sudo groupadd docker'
-                sh 'sudo usermod -aG docker $USER'
-                sh 'sudo service docker stop'
-                sh 'sudo service docker start'
+                sh 'groupadd docker'
+                sh 'usermod -aG docker $USER'
+                sh 'service docker stop'
+                sh 'service docker start'
                 sh 'docker login -u kisungyi92 -p $DOCKER_HUB_PASSWORD'
                 sh 'docker build /etc/gitrepo/ -t kisungyi92/kubernetes-python --no-cache'
                 sh 'docker push kisungyi92/kubernetes-python'
