@@ -6,15 +6,15 @@ podTemplate(
 	],
 	containers:
 	[
-	    containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
-	    containerTemplate(name: 'python', image: 'python:3.7.2', command: 'cat', ttyEnabled: true),
-	    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true,
-	    	envVars: [secretEnvVar(key: 'DOCKER_HUB_PASSWORD', secretName: 'docker-hub-password', secretKey: 'DOCKER_HUB_PASSWORD')]
+	    //containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
+	    //containerTemplate(name: 'python', image: 'python:3.7.2', command: 'cat', ttyEnabled: true),
+	    //containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true,
+	    //	envVars: [secretEnvVar(key: 'DOCKER_HUB_PASSWORD', secretName: 'docker-hub-password', secretKey: 'DOCKER_HUB_PASSWORD')]
 	    )
     ]
 )
 {
-    node('jenkins-slave') {
+    node('mypod') {
         stage('Clone repository') {
             container('git') {
                 sh 'git clone -b master https://github.com/alicek106/kubernetes-python-sdk-example.git /etc/gitrepo'
